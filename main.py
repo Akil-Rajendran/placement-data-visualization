@@ -4,8 +4,10 @@ from plotly import express as px
 import numpy as np
 from plotly import graph_objects as go
 from matplotlib import pyplot as plt
-import requests
 from numerize import numerize
+import base64
+from IPython.display import HTML
+
 
 header = st.container()
 overview = st.container()
@@ -85,3 +87,14 @@ with visuals:
     st.markdown('<p style="font-family: Verdana; color: #c096e0; font-size: 25px;text-align: center"><b>Student details based on companies</b></p>', unsafe_allow_html=True)
     select = st.selectbox('', placement['Company Name'].unique().tolist())
     st.table(pd.DataFrame(company_group.get_group(select))[['Name', 'CGPA', 'Package (FTE)']])
+    
+    def create_download_link( df, title = "download the data used", filename = "data.csv"):  
+        csv = df.to_csv()
+        b64 = base64.b64encode(csv.encode())
+        payload = b64.decode()
+        html = '<a download="{filename}" href="data:text/csv;base64,{payload}" target="_blank">{title}</a>'
+        html = html.format(payload=payload,title=title,filename=filename)
+        return HTML(html)
+        
+    st.markdown('<hr style="height:5px;border:none;color:#000000;background-color:black;"/> ', unsafe_allow_html=True)
+    st.write(create_download_link(data))
