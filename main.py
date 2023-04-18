@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 from numerize import numerize
 import base64
 from IPython.display import HTML
-
+from decimal import Decimal
 
 header = st.container()
 overview = st.container()
@@ -32,6 +32,7 @@ with overview:
     st.markdown('<hr style="height:5px;border:none;color:#000000;background-color:black;"/> ', unsafe_allow_html=True)
 
 with visuals:
+    placement['Package (FTE)'] = placement['Package (FTE)'].apply(lambda x: Decimal(str(x)))
     st.metric("Maximum Package", numerize.numerize(placement['Package (FTE)'].max(), 2))
     st.metric("Average Package", numerize.numerize(placement['Package (FTE)'].mean(), 2))
     st.metric("Minimum Package", numerize.numerize(placement['Package (FTE)'].min(), 2))
