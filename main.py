@@ -17,13 +17,17 @@ with header:
     st.markdown('<p style="font-family: Showcard Gothic, monospace; color:#9a44db; font-size: 72px;text-align: center"><b>PLACEMENT DATA VISUALIZATION OF BATCH 2018-2022</b></p>', unsafe_allow_html=True)
 
 with overview:
-    st.markdown('<p style="font-family: Verdana; color: #c096e0; font-size: 25px;text-align: center"><b>a deep down analysis of the placements</b></p>', unsafe_allow_html=True)
-    st.markdown("""<hr style="height:5px;border:none;color:#000000;background-color:black;" /> """, unsafe_allow_html=True)
     data = pd.read_csv(r'data.csv', index_col=[0])
     placement = pd.read_csv(r'placement.csv', index_col=[0])
     higher = pd.read_csv(r'higher.csv', index_col=[0])
     company_group = placement.groupby(['Company Name'])
     CGPA_group = placement.groupby(['CGPA_round'])
+    
+    st.markdown('<p style="font-family: Verdana; color: #c096e0; font-size: 25px;text-align: center"><b>a deep down analysis of the placements</b></p>', unsafe_allow_html=True)
+    st.markdown("""<hr style="height:5px;border:none;color:#000000;background-color:black;" /> """, unsafe_allow_html=True)
+    
+    st.markdown(f'<p style="font-family: Verdana; color: #b160b3; font-size: 20px;text-align: center"><b>Out of {data.shape[0]} students, {str(placement.shape[0])} opted for placements and {str(higher.shape[0])} have not opted. There is/are {data.shape[0] - (placement.shape[0]+higher.shape[0])} student(s) with insufficient data.</b></p>', unsafe_allow_html=True)
+    st.markdown('<hr style="height:5px;border:none;color:#000000;background-color:black;"/> ', unsafe_allow_html=True)
 
     st.subheader("Students who got placed")
     st.table(pd.DataFrame(placement).iloc[:,:5])
